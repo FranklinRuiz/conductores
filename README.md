@@ -2,14 +2,14 @@
     <a href="https://github.com/yiisoft" target="_blank">
         <img src="https://avatars0.githubusercontent.com/u/993323" height="100px">
     </a>
-    <h1 align="center">Yii 2 Proyecto Integrador UTP</h1>
+    <h1 align="center">Yii 2 Proyecto Desarrollo de Software UTP</h1>
     <br>
 </p>
 
 
 CLONAR PROYECTO A MAQUINA LOCAL
 -------------------
-        git clone https://github.com/FranklinRuiz/mantenimiento.git         Para clonar proyecto del repositorio
+        git clone https://github.com/FranklinRuiz/conductores.git           Para clonar proyecto del repositorio
         git pull                                                            Para bajar cambios del repositorio  
         git status                                                          Para ver los archivos que tiene cambios realizados
         git add .                                                           Para agregar todos los archivos modificados/nuevos a memoria
@@ -17,7 +17,7 @@ CLONAR PROYECTO A MAQUINA LOCAL
         git push                                                            Para Mandar cambios al repositorio  
 
 
-Mantenimiento contiene las funciones básicas que incluyen el inicio / cierre de sesión del usuario y módulos para su uso en una empresa local.
+Conductores contiene las funciones básicas que incluyen el inicio / cierre de sesión del usuario y módulos para su uso en una empresa local.
 
 DIRECTORY STRUCTURE
 -------------------
