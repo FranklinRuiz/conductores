@@ -21,7 +21,7 @@ function funcionEliminar(id) {
                     if (response > 0) {
                         Swal.fire("Eliminado!", "El registro fue eliminado correctamente.", "success")
                     }
-                    datatable.reload()
+                    datatable.draw()
                 }
             });
         } else if (result.dismiss === "cancel") {

@@ -1,4 +1,4 @@
-function iniciarTabla(id_tabla, url, id_buscar, columnas) {
+function iniciarTabla(id_tabla, url, columnas) {
     var data = $(id_tabla).DataTable({
             responsive: true,
             searchDelay: 500,

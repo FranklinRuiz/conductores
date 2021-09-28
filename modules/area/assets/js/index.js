@@ -1,18 +1,19 @@
 "use strict";
 var columnas = [
     {
-        field: "codigo_area",
-        title: "Codigo"
+        data: "codigo_area"
     },
       {
-        field: "nombre_area",
-        title: "Area",
+        data: "nombre_area"
     },
       {
-        field: "accion",
-        title: "Acciones",
-        width: 210
+        data: "accion",
+        width: 180
     }
 ];
 
-var datatable = iniciarTabla("#tabla-area", "/area/default/lista", "#tabla-area-buscar", columnas);
+var datatable = iniciarTabla("#tabla-area", "/area/default/lista", columnas);
+
+$("#tabla-area-buscar").keyup(function (){
+    datatable.search($(this).val()).draw();
+})

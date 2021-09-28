@@ -166,7 +166,7 @@ $bundle = TemplateAsset::register($this);
                              id="#kt_aside_menu" data-kt-menu="true">
                             <div class="menu-item">
                                 <div class="menu-content pb-2">
-                                    <span class="menu-section text-muted text-uppercase fs-8 ls-1">Dashboard</span>
+                                    <span class="menu-section text-muted text-uppercase fs-8 ls-1">Opciones</span>
                                 </div>
                             </div>
                             <?php foreach (\app\components\Menu::getListaMenu() as $menu): ?>
@@ -211,10 +211,8 @@ $bundle = TemplateAsset::register($this);
                 <!--begin::Brand-->
                 <div class="header-brand">
                     <!--begin::Logo-->
-                    <a href="../demo8/index.html">
-                        <img alt="Logo" src="<?php echo $bundle->baseUrl ?>/media/logos/logo-1-dark.svg"
-                             class="h-25px h-lg-25px"/>
-                    </a>
+
+                    <h1 style="color: whitesmoke;font-size: 40px;">RCR</h1>
                     <!--end::Logo-->
                     <!--begin::Aside toggle-->
                     <div class="d-flex align-items-center d-lg-none ms-n3 me-1" title="Show aside menu">
@@ -251,51 +249,11 @@ $bundle = TemplateAsset::register($this);
                                     <span class="text-muted text-hover-primary"><?= $this->context->action->id ?></span>
                                 </li>
                                 <!--end::Item-->
-                                <!--begin::Item-->
-                                <li class="breadcrumb-item">
-                                    <span class="bullet bg-gray-200 w-5px h-2px"></span>
-                                </li>
-                                <!--end::Item-->
-                                <!--begin::Item-->
-                                <li class="breadcrumb-item text-dark">Default</li>
-                                <!--end::Item-->
                             </ul>
                             <!--end::Breadcrumb-->
                         </div>
                         <!--end::Page title-->
-                        <!--begin::Action group-->
-                        <div class="d-flex align-items-center overflow-auto pt-3 pt-lg-0">
 
-                            <!--begin::Action wrapper-->
-                            <div class="d-flex align-items-center">
-                                <!--begin::Label-->
-                                <span class="fs-7 text-gray-700 fw-bolder pe-3 d-none d-xxl-block">Quick Tools:</span>
-                                <!--end::Label-->
-                                <!--begin::Actions-->
-                                <div class="d-flex">
-                                    <!--begin::Action-->
-                                    <a href="#" class="btn btn-sm btn-icon btn-icon-muted btn-active-icon-primary"
-                                       data-bs-toggle="modal" data-bs-target="#kt_modal_invite_friends">
-                                        <!--begin::Svg Icon | path: icons/duotune/communication/com006.svg-->
-                                        <span class="svg-icon svg-icon-1">
-													<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                         viewBox="0 0 24 24" fill="none">
-														<path opacity="0.3"
-                                                              d="M22 12C22 17.5 17.5 22 12 22C6.5 22 2 17.5 2 12C2 6.5 6.5 2 12 2C17.5 2 22 6.5 22 12ZM12 7C10.3 7 9 8.3 9 10C9 11.7 10.3 13 12 13C13.7 13 15 11.7 15 10C15 8.3 13.7 7 12 7Z"
-                                                              fill="black"/>
-														<path d="M12 22C14.6 22 17 21 18.7 19.4C17.9 16.9 15.2 15 12 15C8.8 15 6.09999 16.9 5.29999 19.4C6.99999 21 9.4 22 12 22Z"
-                                                              fill="black"/>
-													</svg>
-												</span>
-                                        <!--end::Svg Icon-->
-                                    </a>
-                                    <!--end::Action-->
-                                </div>
-                                <!--end::Actions-->
-                            </div>
-                            <!--end::Action wrapper-->
-                        </div>
-                        <!--end::Action group-->
                     </div>
                     <!--end::Toolbar-->
                 </div>

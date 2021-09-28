@@ -64,7 +64,7 @@ function funcionEditar(id) {
                                 } else {
                                     notificacion('Error al guardar datos', 'error');
                                 }
-                                datatable.reload()
+                                datatable.draw()
                             }
                         });
                     }

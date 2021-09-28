@@ -1,6 +1,6 @@
 /*! @preserve
  * bootbox.locales.js
- * version: 5.4.0
+ * version: 5.5.2
  * author: Nick Payne <nick@kurai.co.uk>
  * license: MIT
  * http://bootboxjs.com/
@@ -325,6 +325,14 @@
       OK: 'OK',
       CANCEL: 'Відміна',
       CONFIRM: 'Прийняти'
+    });
+  })();
+
+  (function () {
+    bootbox.addLocale('vi', {
+      OK: 'OK',
+      CANCEL: 'Hủy bỏ',
+      CONFIRM: 'Xác nhận'
     });
   })();
 

@@ -14,7 +14,6 @@ class PersonaAsset extends AssetBundle {
         'js/crear.js',
         'js/editar.js',
         'js/eliminar.js',
-        'js/prueba.js'
     ];
     public $depends = [
         'app\bundles\TemplateAsset',

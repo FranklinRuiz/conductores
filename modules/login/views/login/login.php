@@ -17,9 +17,14 @@ $bundle = TemplateAsset::register($this);
 
 <div class="d-flex flex-center flex-column flex-column-fluid p-10 pb-lg-20">
     <!--begin::Logo-->
-    <a href="../demo8/index.html" class="mb-12">
-        <img alt="Logo" src="<?php echo $bundle->baseUrl ?>/media/logos/logo-1.svg" class="h-40px"/>
-    </a>
+    <!--begin::Heading-->
+    <div class="text-center mb-10">
+        <!--begin::Title-->
+        <h1 class="text-dark mb-3">SISTEMA CONTROL DE REGISTRO DE CONDUCTORES</h1>
+        <!--end::Title-->
+    </div>
+    <!--begin::Heading-->
+
     <!--end::Logo-->
     <!--begin::Wrapper-->
     <div class="w-lg-500px bg-body rounded shadow-sm p-10 p-lg-15 mx-auto">
@@ -36,7 +41,7 @@ $bundle = TemplateAsset::register($this);
         <!--begin::Heading-->
         <div class="text-center mb-10">
             <!--begin::Title-->
-            <h1 class="text-dark mb-3">Iniciar sesión en SISGA</h1>
+            <h1 class="text-dark mb-3">Iniciar sesión en CRC</h1>
             <!--end::Title-->
         </div>
         <!--begin::Heading-->

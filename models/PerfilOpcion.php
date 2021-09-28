@@ -5,12 +5,11 @@ namespace app\models;
 use Yii;
 
 /**
- * This is the model class for table "secciones".
+ * This is the model class for table "perfil_opcion".
  *
- * @property int $id_seccion
- * @property string $codigo_seccion
- * @property string $nombre_seccion
- * @property int $id_area
+ * @property int $id_perfil_opcion
+ * @property int $id_perfil
+ * @property int $id_opcion
  * @property int $id_usuario_reg
  * @property string $fecha_reg
  * @property string $ipmaq_reg
@@ -20,15 +19,17 @@ use Yii;
  * @property int $id_usuario_del
  * @property string $fecha_del
  * @property string $ipmaq_del
+ *
+ * @property Perfiles $perfil
  */
-class Secciones extends \yii\db\ActiveRecord
+class PerfilOpcion extends \yii\db\ActiveRecord
 {
     /**
      * {@inheritdoc}
      */
     public static function tableName()
     {
-        return 'secciones';
+        return 'perfil_opcion';
     }
 
     /**
@@ -37,12 +38,11 @@ class Secciones extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['nombre_seccion', 'id_area', 'id_usuario_reg', 'fecha_reg', 'ipmaq_reg'], 'required'],
-            [['id_area', 'id_usuario_reg', 'id_usuario_act', 'id_usuario_del'], 'integer'],
+            [['id_perfil', 'id_opcion', 'id_usuario_reg', 'fecha_reg', 'ipmaq_reg'], 'required'],
+            [['id_perfil', 'id_opcion', 'id_usuario_reg', 'id_usuario_act', 'id_usuario_del'], 'integer'],
             [['fecha_reg', 'fecha_act', 'fecha_del'], 'safe'],
-            [['codigo_seccion'], 'string', 'max' => 10],
-            [['nombre_seccion'], 'string', 'max' => 200],
             [['ipmaq_reg', 'ipmaq_act', 'ipmaq_del'], 'string', 'max' => 20],
+            [['id_perfil'], 'exist', 'skipOnError' => true, 'targetClass' => Perfiles::className(), 'targetAttribute' => ['id_perfil' => 'id_perfil']],
         ];
     }
 
@@ -52,10 +52,9 @@ class Secciones extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id_seccion' => 'Id Seccion',
-            'codigo_seccion' => 'Codigo Seccion',
-            'nombre_seccion' => 'Nombre Seccion',
-            'id_area' => 'Id Area',
+            'id_perfil_opcion' => 'Id Perfil Opcion',
+            'id_perfil' => 'Id Perfil',
+            'id_opcion' => 'Id Opcion',
             'id_usuario_reg' => 'Id Usuario Reg',
             'fecha_reg' => 'Fecha Reg',
             'ipmaq_reg' => 'Ipmaq Reg',
@@ -66,5 +65,13 @@ class Secciones extends \yii\db\ActiveRecord
             'fecha_del' => 'Fecha Del',
             'ipmaq_del' => 'Ipmaq Del',
         ];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getPerfil()
+    {
+        return $this->hasOne(Perfiles::className(), ['id_perfil' => 'id_perfil']);
     }
 }

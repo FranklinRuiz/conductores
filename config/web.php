@@ -4,7 +4,7 @@ $params = require __DIR__ . '/params.php';
 $db = require __DIR__ . '/db.php';
 
 $config = [
-    'id' => 'mantenimiento',
+    'id' => 'crc',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'timeZone' => 'America/Lima',
@@ -14,7 +14,7 @@ $config = [
         '@npm' => '@vendor/npm-asset',
     ],
     'modules' => require(__DIR__ . '/modules.php'),
-    'defaultRoute' => 'blanco',
+//    'defaultRoute' => 'blanco',
     'components' => [
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation

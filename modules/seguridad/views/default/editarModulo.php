@@ -1,10 +1,10 @@
 <form id="form-modulo">
-    <div class="form-group">
-        <label>Nombre Módulo<span class="text-danger">*</span></label>
+    <div class="fv-row mb-5">
+        <label  class="required fw-bold fs-6 mb-2">Nombre Módulo</label>
         <input type="text" class="form-control" placeholder="Ingrese nombre del módulo" name="nombre" id="nombre" value="<?= $modulo->nombre_opcion ?>"/>
     </div>
-    <div class="form-group">
-        <label>Ruta<span class="text-danger">*</span></label>
+    <div class="fv-row mb-5">
+        <label  class="required fw-bold fs-6 mb-2">Ruta</label>
         <input type="text" class="form-control" placeholder="Ingrese ruta" name="ruta" id="ruta" value="<?= $modulo->url ?>"/>
     </div>
     <hr>

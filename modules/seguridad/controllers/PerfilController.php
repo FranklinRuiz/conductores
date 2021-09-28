@@ -9,16 +9,18 @@ use Exception;
 use app\components\Utils;
 use app\models\Opciones;
 use app\models\Perfiles;
-use app\models\PerfilOpciones;
+use app\models\PerfilOpcion;
 
 /**
  * Default controller for the `seguridad` module
  */
-class PerfilController extends Controller {
+class PerfilController extends Controller
+{
 
     public $enableCsrfValidation = false;
 
-    public function actionGetModal() {
+    public function actionGetModal()
+    {
         $modulo = Opciones::find()->where(["fecha_del" => null])->all();
         $plantilla = Yii::$app->controller->renderPartial("crearPerfil", [
             "modulo" => $modulo
@@ -27,7 +29,8 @@ class PerfilController extends Controller {
         Yii::$app->response->data = ["plantilla" => $plantilla];
     }
 
-    public function actionCreate() {
+    public function actionCreate()
+    {
         if (Yii::$app->request->post()) {
             $transaction = Yii::$app->db->beginTransaction();
             $post = Yii::$app->request->post();
@@ -48,7 +51,7 @@ class PerfilController extends Controller {
                 $modulos = $post['modulo'];
 
                 foreach ($modulos as $m) {
-                    $opciones = new PerfilOpciones();
+                    $opciones = new PerfilOpcion();
                     $opciones->id_perfil = $perfil->id_perfil;
                     $opciones->id_opcion = $m;
                     $opciones->id_usuario_reg = Yii::$app->user->getId();
@@ -73,8 +76,10 @@ class PerfilController extends Controller {
         }
     }
 
-    public function actionGetModalEdit($id) {
+    public function actionGetModalEdit($id)
+    {
         $data = Perfiles::findOne($id);
+        $result = [];
         try {
             $command = Yii::$app->db->createCommand('call prefilOpciones(:idPerfil)');
             $command->bindValue(':idPerfil', $id);
@@ -91,7 +96,8 @@ class PerfilController extends Controller {
         Yii::$app->response->data = ["plantilla" => $plantilla];
     }
 
-    public function actionUpdate() {
+    public function actionUpdate()
+    {
         if (Yii::$app->request->post()) {
             $transaction = Yii::$app->db->beginTransaction();
             $post = Yii::$app->request->post();
@@ -108,10 +114,10 @@ class PerfilController extends Controller {
                     throw new HttpException("No se puede guardar datos Perfil");
                 }
 
-                $modulosEliminar = PerfilOpciones::find()->where(["id_perfil" => $perfil->id_perfil])->all();
+                $modulosEliminar = PerfilOpcion::find()->where(["id_perfil" => $perfil->id_perfil])->all();
 
                 foreach ($modulosEliminar as $m) {
-                    $po = PerfilOpciones::findOne($m->id_perfil_opcion);
+                    $po = PerfilOpcion::findOne($m->id_perfil_opcion);
                     $po->id_usuario_del = Yii::$app->user->getId();
                     $po->fecha_del = Utils::getFechaActual();
                     $po->ipmaq_del = Utils::obtenerIP();
@@ -124,7 +130,7 @@ class PerfilController extends Controller {
 
                 $modulos = $post['modulo'];
                 foreach ($modulos as $m) {
-                    $opciones = new PerfilOpciones();
+                    $opciones = new PerfilOpcion();
                     $opciones->id_perfil = $perfil->id_perfil;
                     $opciones->id_opcion = $m;
                     $opciones->id_usuario_reg = Yii::$app->user->getId();
@@ -149,7 +155,8 @@ class PerfilController extends Controller {
         }
     }
 
-    public function actionDelete() {
+    public function actionDelete()
+    {
         if (Yii::$app->request->post()) {
             $transaction = Yii::$app->db->beginTransaction();
             $post = Yii::$app->request->post();
@@ -176,7 +183,8 @@ class PerfilController extends Controller {
         }
     }
 
-    public function actionEstado() {
+    public function actionEstado()
+    {
         if (Yii::$app->request->post()) {
             $transaction = Yii::$app->db->beginTransaction();
             $post = Yii::$app->request->post();
@@ -204,18 +212,18 @@ class PerfilController extends Controller {
         }
     }
 
-    public function actionLista() {
-        $page = empty($_POST["pagination"]["page"]) ? 0 : $_POST["pagination"]["page"];
-        $pages = empty($_POST["pagination"]["pages"]) ? 1 : $_POST["pagination"]["pages"];
-        $buscar = empty($_POST["query"]["generalSearch"]) ? '' : $_POST["query"]["generalSearch"];
-        $perpage = $_POST["pagination"]["perpage"];
-        $row = ($page * $perpage) - $perpage;
-//        $length = ($perpage * $page) - 1;
+    public function actionLista()
+    {
+        $page = empty($_GET["start"]) ? 0 : $_GET["start"];
+        $pages = empty($_GET["length"]) ? 10 : $_GET["length"];;
+        $buscar = empty($_GET["search"]["value"]) ? '' : $_GET["search"]["value"];
+
+        $result = [];
 
         try {
             $command = Yii::$app->db->createCommand('call listadoPerfil(:row,:length,:buscar)');
-            $command->bindValue(':row', $row);
-            $command->bindValue(':length', $perpage);
+            $command->bindValue(':row', $page);
+            $command->bindValue(':length', $pages);
             $command->bindValue(':buscar', $buscar);
             $result = $command->queryAll();
         } catch (\Exception $e) {
@@ -228,11 +236,11 @@ class PerfilController extends Controller {
             $boton = "";
             if ($row["estado"] == 1) {
                 $boton = '<button class="btn btn-icon btn-success btn-circle btn-xs mr-2" onclick="funcionEstadoPerfil(' . $row["id_perfil"] . ',0)">
-                                <i class="flaticon2-check-mark"></i>
+                                <i class="bi bi-check-circle-fill fs-2"></i>
                           </button>';
             } else {
                 $boton = '<button class="btn btn-icon btn-danger btn-circle btn-xs mr-2" onclick="funcionEstadoPerfil(' . $row["id_perfil"] . ',1)">
-                                <i class="flaticon2-cancel"></i>
+                                <i class="bi bi-exclamation-circle-fill fs-2"></i>
                           </button>';
             }
 
@@ -240,22 +248,17 @@ class PerfilController extends Controller {
                 "nombre" => $row['nombre_perfil'],
                 "descripcion" => $row['descripcion'],
                 "estado" => $boton,
-                "accion" => '<button class="btn btn-sm btn-light-success font-weight-bold mr-2" onclick="funcionEditarPerfil(' . $row["id_perfil"] . ')"><i class="flaticon-edit"></i>Editar</button>
-                             <button class="btn btn-sm btn-light-danger font-weight-bold mr-2" onclick="funcionEliminarPerfil(' . $row["id_perfil"] . ')"><i class="flaticon-delete"></i>Eliminar</button>',
+                "accion" => '<button class="btn btn-sm btn-light-success font-weight-bold mr-2" onclick="funcionEditarPerfil(' . $row["id_perfil"] . ')"><i class="bi bi-pencil-fill"></i>Editar</button>
+                             <button class="btn btn-sm btn-light-danger font-weight-bold mr-2" onclick="funcionEliminarPerfil(' . $row["id_perfil"] . ')"><i class="bi bi-trash-fill"></i>Eliminar</button>',
             ];
         }
 
         $totalData = isset($result[0]['total']) ? $result[0]['total'] : 0;
 
         $json_data = [
-            "data" => $data,
-            "meta" => [
-                "page" => $page,
-                "pages" => $pages,
-                "perpage" => $perpage,
-                "sort" => "asc",
-                "total" => $totalData
-            ]
+            'recordsTotal' => $totalData,
+            'recordsFiltered' => $totalData,
+            'data' => $data,
         ];
 
         ob_start();

@@ -1,28 +1,18 @@
 "use strict";
 var columnasUsuario = [
-    {
-        field: "usuario",
-        title: "Usuario"
-    },
-    {
-        field: "perfil",
-        title: "Perfil"
-    },
-    {
-        field: "area",
-        title: "Area"
-    },
-    {
-        field: "persona",
-        title: "Persona"
-    },
-    {
-        field: "accion",
-        title: "Acciones",
-        width: 210
-    }
+    {data: "usuario"},
+    {data: "perfil"},
+    {data: "area"},
+    {data: "persona"},
+    {data: "accion", width: 180}
 ];
-var datatableUsuario = iniciarTabla("#tabla-usuario", "/seguridad/usuario/lista", "#tabla-usuario-buscar", columnasUsuario);
+
+var datatableUsuario = iniciarTabla("#tabla-usuario", "/seguridad/usuario/lista", columnasUsuario);
+
+$("#tabla-usuario-buscar").keyup(function (){
+    datatableUsuario.search($(this).val()).draw();
+})
+
 $("#modal-usuario").on("click", function () {
     $.post(APP_URL + '/seguridad/usuario/get-modal', {}, function (resp) {
         bootbox.dialog({
@@ -30,6 +20,7 @@ $("#modal-usuario").on("click", function () {
             message: resp.plantilla,
             buttons: {}
         });
+
         $("#persona").select2({
             placeholder: "Seleccione Persona"
         })
@@ -45,66 +36,68 @@ $("#modal-usuario").on("click", function () {
         $("#btn-cancelar").click(function () {
             bootbox.hideAll();
         });
-        $(document).ready(function () {
-            $("#btn-guardar").click(function () {
-                $("#form-usuario").validate({
-                    rules: {
-                        persona: "required",
-                        area: "required",
-                        perfil: "required",
-                        correo: {
-                            required: true,
-                            email: true
-                        },
-                        usuario: "required",
-                        password: "required",
-                    },
-                    messages: {
-                        persona: "Por favor seleccione",
-                        area: "Por favor seleccione",
-                        perfil: "Por favor seleccione",
-                        correo: "Por favor ingrese un correo valido",
-                        usuario: "Por favor ingrese datos",
-                        password: "Por favor ingrese datos",
-                    },
-                    submitHandler: function () {
-                        var persona = $("#persona").val();
-                        var area = $("#area").val();
-                        var perfil = $("#perfil").val();
-                        var correo = $("#correo").val();
-                        var usuario = $("#usuario").val();
-                        var password = $("#password").val();
 
-                        $.ajax({
-                            type: "POST",
-                            dataType: 'json',
-                            url: APP_URL + '/seguridad/usuario/create',
-                            contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
-                            data: {
-                                persona: persona,
-                                area: area,
-                                perfil: perfil,
-                                correo: correo,
-                                usuario: usuario,
-                                password: password,
+        $(document).ready(function () {
+                $("#btn-guardar").click(function () {
+                    $("#form-usuario").validate({
+                        rules: {
+                            persona: "required",
+                            area: "required",
+                            perfil: "required",
+                            correo: {
+                                required: true,
+                                email: true
                             },
-                            success: function (response) {
-                                bootbox.hideAll();
-                                if (response) {
-                                    notificacion('Accion realizada con exito', 'success');
-                                } else {
-                                    notificacion('Error al guardar datos', 'error');
+                            usuario: "required",
+                            password: "required",
+                        },
+                        messages: {
+                            persona: "Por favor seleccione",
+                            area: "Por favor seleccione",
+                            perfil: "Por favor seleccione",
+                            correo: "Por favor ingrese un correo valido",
+                            usuario: "Por favor ingrese datos",
+                            password: "Por favor ingrese datos",
+                        },
+                        submitHandler: function () {
+                            var persona = $("#persona").val();
+                            var area = $("#area").val();
+                            var perfil = $("#perfil").val();
+                            var correo = $("#correo").val();
+                            var usuario = $("#usuario").val();
+                            var password = $("#password").val();
+
+                            $.ajax({
+                                type: "POST",
+                                dataType: 'json',
+                                url: APP_URL + '/seguridad/usuario/create',
+                                contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+                                data: {
+                                    persona: persona,
+                                    area: area,
+                                    perfil: perfil,
+                                    correo: correo,
+                                    usuario: usuario,
+                                    password: password,
+                                },
+                                success: function (response) {
+                                    bootbox.hideAll();
+                                    if (response) {
+                                        notificacion('Accion realizada con exito', 'success');
+                                    } else {
+                                        notificacion('Error al guardar datos', 'error');
+                                    }
+                                    datatableUsuario.draw()
                                 }
-                                datatableUsuario.reload()
-                            }
-                        });
-                    }
+                            });
+                        }
+                    });
                 });
-            });
-        }
+            }
         );
     }, 'json');
 });
+
 function funcionEditarUsuario(id) {
     $.post(APP_URL + '/seguridad/usuario/get-modal-edit/' + id, {}, function (resp) {
         bootbox.dialog({
@@ -178,7 +171,7 @@ function funcionEditarUsuario(id) {
                                 } else {
                                     notificacion('Error al guardar datos', 'error');
                                 }
-                                datatableUsuario.reload()
+                                datatableUsuario.draw()
                             }
                         });
                     }
@@ -187,7 +180,6 @@ function funcionEditarUsuario(id) {
         });
     }, 'json');
 }
-
 
 function funcionEliminarUsuario(id) {
     Swal.fire({
@@ -212,7 +204,7 @@ function funcionEliminarUsuario(id) {
                     if (response > 0) {
                         Swal.fire("Eliminado!", "El registro fue eliminado correctamente.", "success")
                     }
-                    datatableUsuario.reload()
+                    datatableUsuario.draw()
                 }
             });
         } else if (result.dismiss === "cancel") {

@@ -7,4 +7,8 @@ var columnas = [
     {data: "accion"}
 ];
 
-var datatable = iniciarTabla("#tabla-persona", "/persona/default/lista", "#tabla-persona-buscar", columnas);
+var datatable = iniciarTabla("#tabla-persona", "/persona/default/lista", columnas);
+
+$("#tabla-persona-buscar").keyup(function (){
+    datatable.search($(this).val()).draw();
+})

@@ -1,25 +1,25 @@
 "use strict";
 var columnasPerfil = [
     {
-        field: "nombre",
-        title: "Nombre"
+        data: "nombre"
     },
     {
-        field: "descripcion",
-        title: "Descripción"
+        data: "descripcion"
     },
     {
-        field: "estado",
-        title: "Estado"
+        data: "estado"
     },
     {
-        field: "accion",
-        title: "Acciones",
-        width: 210
+        data: "accion",
+        width: 180
     }
 ];
 
-var datatablePerfil = iniciarTabla("#tabla-perfil", "/seguridad/perfil/lista", "#tabla-perfil-buscar", columnasPerfil);
+var datatablePerfil = iniciarTabla("#tabla-perfil", "/seguridad/perfil/lista",  columnasPerfil);
+
+$("#tabla-perfil-buscar").keyup(function (){
+    datatablePerfil.search($(this).val()).draw();
+})
 
 $("#modal-perfil").on("click", function () {
     $.post(APP_URL + '/seguridad/perfil/get-modal', {}, function (resp) {
@@ -69,7 +69,7 @@ $("#modal-perfil").on("click", function () {
                                 } else {
                                     notificacion('Error al guardar datos', 'error');
                                 }
-                                datatablePerfil.reload()
+                                datatablePerfil.draw()
                             }
                         });
                     }
@@ -78,7 +78,6 @@ $("#modal-perfil").on("click", function () {
         });
     }, 'json');
 });
-
 
 function funcionEditarPerfil(id) {
     $.post(APP_URL + '/seguridad/perfil/get-modal-edit/' + id, {}, function (resp) {
@@ -128,7 +127,7 @@ function funcionEditarPerfil(id) {
                                 } else {
                                     notificacion('Error al guardar datos', 'error');
                                 }
-                                datatablePerfil.reload()
+                                datatablePerfil.draw()
                             }
                         });
                     }
@@ -137,7 +136,6 @@ function funcionEditarPerfil(id) {
         });
     }, 'json');
 }
-
 
 function funcionEliminarPerfil(id) {
     Swal.fire({
@@ -162,7 +160,7 @@ function funcionEliminarPerfil(id) {
                     if (response > 0) {
                         Swal.fire("Eliminado!", "El registro fue eliminado correctamente.", "success")
                     }
-                    datatablePerfil.reload()
+                    datatablePerfil.draw()
                 }
             });
         } else if (result.dismiss === "cancel") {
@@ -185,7 +183,7 @@ function funcionEstadoPerfil(id, estado) {
             if (response > 0) {
                 Swal.fire("Actualizado!", "El registro fue cambiado correctamente.", "success")
             }
-            datatablePerfil.reload()
+            datatablePerfil.draw()
         }
     });
 

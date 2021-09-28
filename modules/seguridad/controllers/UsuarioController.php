@@ -145,17 +145,16 @@ class UsuarioController extends Controller {
     }
 
     public function actionLista() {
-        $page = empty($_POST["pagination"]["page"]) ? 0 : $_POST["pagination"]["page"];
-        $pages = empty($_POST["pagination"]["pages"]) ? 1 : $_POST["pagination"]["pages"];
-        $buscar = empty($_POST["query"]["generalSearch"]) ? '' : $_POST["query"]["generalSearch"];
-        $perpage = $_POST["pagination"]["perpage"];
-        $row = ($page * $perpage) - $perpage;
-//        $length = ($perpage * $page) - 1;
+        $page = empty($_GET["start"]) ? 0 : $_GET["start"];
+        $pages = empty($_GET["length"]) ? 10 : $_GET["length"];;
+        $buscar = empty($_GET["search"]["value"]) ? '' : $_GET["search"]["value"];
+
+        $result = [];
 
         try {
             $command = Yii::$app->db->createCommand('call listadoUsuario(:row,:length,:buscar)');
-            $command->bindValue(':row', $row);
-            $command->bindValue(':length', $perpage);
+            $command->bindValue(':row', $page);
+            $command->bindValue(':length', $pages);
             $command->bindValue(':buscar', $buscar);
             $result = $command->queryAll();
         } catch (\Exception $e) {
@@ -169,22 +168,17 @@ class UsuarioController extends Controller {
                 "perfil" => $row['perfil'],
                 "area" => $row['area'],
                 "persona" => $row['persona'],
-                "accion" => '<button class="btn  btn-sm btn-light-success font-weight-bold mr-2" onclick="funcionEditarUsuario(' . $row["id_usuario"] . ')"><i class="flaticon-edit"></i>Editar</button>
-                             <button class="btn  btn-sm btn-light-danger font-weight-bold mr-2" onclick="funcionEliminarUsuario(' . $row["id_usuario"] . ')"><i class="flaticon-delete"></i>Eliminar</button>',
+                "accion" => '<button class="btn  btn-sm btn-light-success font-weight-bold mr-2" onclick="funcionEditarUsuario(' . $row["id_usuario"] . ')"><i class="bi bi-pencil-fill"></i>Editar</button>
+                             <button class="btn  btn-sm btn-light-danger font-weight-bold mr-2" onclick="funcionEliminarUsuario(' . $row["id_usuario"] . ')"><i class="bi bi-trash-fill"></i>Eliminar</button>',
             ];
         }
 
         $totalData = isset($result[0]['total']) ? $result[0]['total'] : 0;
 
         $json_data = [
-            "data" => $data,
-            "meta" => [
-                "page" => $page,
-                "pages" => $pages,
-                "perpage" => $perpage,
-                "sort" => "asc",
-                "total" => $totalData
-            ]
+            'recordsTotal'    => $totalData,
+            'recordsFiltered' => $totalData,
+            'data'            =>$data,
         ];
 
         ob_start();

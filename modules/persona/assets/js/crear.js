@@ -62,7 +62,7 @@ $("#modal-persona").on("click", function () {
                                 } else {
                                     notificacion('Error al guardar datos', 'error');
                                 }
-                                datatable.reload()
+                                datatable.draw()
                             }
                         });
                     }

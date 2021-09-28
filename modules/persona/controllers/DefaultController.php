@@ -17,19 +17,10 @@ class DefaultController extends Controller {
 
     public $enableCsrfValidation = false;
 
-    //Hola, soy Franklin y yo Dayron
-// hola soy paolo 
-    // soy marco xd
-
     /**
      * Renders the index view for the module
      * @return string
      */
-
-    public function actionPrueba() {
-        return $this->render('prueba');
-    }
-
     public function actionIndex() {
         return $this->render('index');
     }
@@ -148,13 +139,11 @@ class DefaultController extends Controller {
     }
 
     public function actionLista() {
+        $page = empty($_GET["start"]) ? 0 : $_GET["start"];
+        $pages = empty($_GET["length"]) ? 10 : $_GET["length"];;
+        $buscar = empty($_GET["search"]["value"]) ? '' : $_GET["search"]["value"];
 
-        $page = empty($_POST["start"]);
-        $pages = empty($_POST["length"]);
-        $buscar = empty($_POST["search"]["value"]) ? '' : $_POST["search"]["value"];
-//        $perpage = $_POST["pagination"]["perpage"];
-//        $row = ($page * $perpage) - $perpage;
-//        $length = ($perpage * $page) - 1;
+        $result = [];
 
         try {
             $command = Yii::$app->db->createCommand('call listadoPersona(:row,:length,:buscar)');
@@ -173,8 +162,8 @@ class DefaultController extends Controller {
                 "nombres" => $row['nombres'],
                 "apellido_paterno" => $row['apellido_paterno'],
                 "apellido_materno" => $row['apellido_materno'],
-                "accion" => '<button class="btn btn-sm btn-light-success font-weight-bold mr-2" onclick="funcionEditar(' . $row["id_persona"] . ')"><i class="flaticon-edit"></i>Editar</button>
-                             <button class="btn btn-sm btn-light-danger font-weight-bold mr-2" onclick="funcionEliminar(' . $row["id_persona"] . ')"><i class="flaticon-delete"></i>Eliminar</button>',
+                "accion" => '<button class="btn btn-sm btn-light-success font-weight-bold mr-2" onclick="funcionEditar(' . $row["id_persona"] . ')"><i class="bi bi-pencil-fill"></i>Editar</button>
+                             <button class="btn btn-sm btn-light-danger font-weight-bold mr-2" onclick="funcionEliminar(' . $row["id_persona"] . ')"><i class="bi bi-trash-fill"></i>Eliminar</button>',
             ];
         }
 
@@ -189,9 +178,6 @@ class DefaultController extends Controller {
         ob_start();
         Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         Yii::$app->response->data = $json_data;
-
-
-
     }
 
 }

@@ -1,21 +1,22 @@
 "use strict";
 var columnasModulo = [
     {
-        field: "nombre",
-        title: "Nombre"
+        data: "nombre"
     },
     {
-        field: "ruta",
-        title: "Ruta"
+        data: "ruta"
     },
     {
-        field: "accion",
-        title: "Acciones",
-        width: 210
+        data: "accion",
+        width: 150
     }
 ];
 
-var datatableModulo = iniciarTabla("#tabla-modulo", "/seguridad/default/lista", "#tabla-modulo-buscar", columnasModulo);
+var datatableModulo = iniciarTabla("#tabla-modulo", "/seguridad/default/lista", columnasModulo);
+
+$("#tabla-modulo-buscar").keyup(function (){
+    datatableModulo.search($(this).val()).draw();
+})
 
 $("#modal-modulo").on("click", function () {
     $.post(APP_URL + '/seguridad/default/get-modal', {}, function (resp) {
@@ -59,7 +60,7 @@ $("#modal-modulo").on("click", function () {
                                 } else {
                                     notificacion('Error al guardar datos', 'error');
                                 }
-                                datatableModulo.reload()
+                                datatableModulo.draw()
                             }
                         });
                     }
@@ -68,7 +69,6 @@ $("#modal-modulo").on("click", function () {
         });
     }, 'json');
 });
-
 
 function funcionEditarModulo(id) {
     $.post(APP_URL + '/seguridad/default/get-modal-edit/' + id, {}, function (resp) {
@@ -113,7 +113,7 @@ function funcionEditarModulo(id) {
                                 } else {
                                     notificacion('Error al guardar datos', 'error');
                                 }
-                                datatableModulo.reload()
+                                datatableModulo.draw()
                             }
                         });
                     }
@@ -122,7 +122,6 @@ function funcionEditarModulo(id) {
         });
     }, 'json');
 }
-
 
 function funcionEliminarModulo(id) {
     Swal.fire({
@@ -147,7 +146,7 @@ function funcionEliminarModulo(id) {
                     if (response > 0) {
                         Swal.fire("Eliminado!", "El registro fue eliminado correctamente.", "success")
                     }
-                    datatableModulo.reload()
+                    datatableModulo.draw()
                 }
             });
         } else if (result.dismiss === "cancel") {
