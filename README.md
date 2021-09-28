@@ -17,6 +17,7 @@ CLONAR PROYECTO A MAQUINA LOCAL
         git push                                                            Para Mandar cambios al repositorio  
 
 
+
 CRC contiene las funciones básicas que incluyen el inicio / cierre de sesión del usuario y módulos para su uso en una empresa local.
 
 DIRECTORY STRUCTURE
