@@ -32,4 +32,7 @@ return [
     'area' => [
         'class' => 'app\modules\area\Area',
     ],
+    'conductor' => [
+        'class' => 'app\modules\conductor\Conductor',
+    ],
 ];
